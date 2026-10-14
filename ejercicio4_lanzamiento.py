@@ -12,10 +12,10 @@ RESERVA_COMBUSTIBLE = 10
 
 # Entrada de datos
 combustible_disponible = int(
-    input("Ingrese el combustibe disponible: ")
+    input("Ingrese el combustible disponible: ")
 )
 combustible_ida = int(
-    input("Ingrese el combustible requerido para llegar:")
+    input("Ingrese el combustible requerido para llegar: ")
 )
 combustible_regreso = int(
     input("Ingrese el combustible requerido para regresar: ")
@@ -62,4 +62,4 @@ if (
 ):
     print("Lanzamiento autorizado.")
 else:
-    print("Lanzamiento no autorizado. La mision debe ser revisda")
+    print("Lanzamiento no autorizado. La mision debe ser revisada")
