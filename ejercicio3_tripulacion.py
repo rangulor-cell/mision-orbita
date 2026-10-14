@@ -1,16 +1,32 @@
-# Proyecto: Mision Orbita
-# Autor: Josue Angulo
+# ============================================================
+# Archivo: ejercicio3_tripulacion.py
+# Curso: SOFT-01 Principios de Programacion 1 - Seccion SCV6
+# Integrante: Rachid Josue Angulo Rodriguez
+# Fecha: 14/10/2026
+# Version: 1.0
+# Descripcion: Verifica el soporte disponible para la tripulacion.
+# ============================================================
 
-oxigeno_disponible = float(input("Ingrese el oxigeno disponible: "))
-oxigeno_necesario = float(input("Ingrese el oxigeno necesario: "))
+# Entrada de datos
+oxigeno_disponible = int(
+    input("Ingrese el oxigeno disponible: ")
+)
+oxigeno_requerido = int(
+    input("Ingrese el oxigeno requerido: ")
+)
+provisiones_disponibles = int(
+    input("Ingrese las provisiones disponibles: ")
+)
+provisiones_requeridas = int(
+    input("Ingrese las provisiones requeridas: ")
+)
 
-provisiones_disponibles = float(input("Ingrese las provisiones disponibles: "))
-provisiones_necesarias = float(input("Ingrese las provisiones necesarias: "))
-
-if oxigeno_disponible >= oxigeno_necesario:
-    if provisiones_disponibles >= provisiones_necesarias:
-        print("La tripulacion cuenta con soporte suficiente")
-    else:
-        print("No hay suficientes provisiones")
+# Decision doble con una condicion compuesta
+# Es necesario que los dos recursos sean suficientes.
+if (
+    oxigeno_disponible >= oxigeno_requerido
+    and provisiones_disponibles >= provisiones_requeridas
+):
+    print("La nave posee recursos suficientes para la tripulacion.")
 else:
-    print("No hay suficiente oxigeno")
+    print("La nave no posee recursos suficientes para la tripulacion.")
