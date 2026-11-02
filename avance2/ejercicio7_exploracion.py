@@ -1,5 +1,5 @@
 # Universidad: CENFOTEC
-# Curso: Principios de Programación 1
+# Curso: principios de Programación 1
 # Proyecto: Misión Órbita - Avance 2
 # Ejercicio 7: Exploración científica
 # Estudiante: Rachid Josué Angulo Rodríguez
