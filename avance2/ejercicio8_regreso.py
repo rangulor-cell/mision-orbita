@@ -6,7 +6,8 @@
 # Estudiante: Rachid Josué Angulo Rodríguez
 # Descripción:
 # Programa que determina si la nave puede iniciar el regreso,
-# simula el viaje día por día y evalúa los recursos.
+# simula el viaje día por día y calcula la supervivencia de
+# la tripulación cuando no puede regresar.
 # ============================================================
 
 # Constantes de consumo diario
@@ -49,7 +50,7 @@ combustible_necesario_regreso = (
     dias_viaje_ida * CONSUMO_COMBUSTIBLE_DIA
 )
 
-# Cálculo del consumo diario según la tripulación
+# Cálculo de los consumos diarios según la tripulación
 oxigeno_necesario_dia = (
     tripulantes * CONSUMO_OXIGENO_TRIPULANTE_DIA
 )
@@ -81,26 +82,15 @@ if combustible >= combustible_necesario_regreso:
 
     # Simulación del regreso día por día
     while dia_actual <= dias_viaje_ida and regreso_activo == True:
-        print(
-            "\n================ DÍA",
-            dia_actual,
-            "================"
-        )
 
-        print("Recursos antes del consumo:")
-        print("Combustible:", combustible)
-        print("Oxígeno:", oxigeno)
-        print("Energía:", energia)
-        print("Provisiones:", provisiones)
-
-        # Verificar si hay recursos para completar el día
+        # Verificación de los recursos necesarios para el día
         if (
             combustible >= CONSUMO_COMBUSTIBLE_DIA
             and oxigeno >= oxigeno_necesario_dia
             and energia >= CONSUMO_ENERGIA_DIA
             and provisiones >= provisiones_necesarias_dia
         ):
-            # Consumir los recursos correspondientes al día
+            # Consumo de recursos
             combustible = (
                 combustible - CONSUMO_COMBUSTIBLE_DIA
             )
@@ -117,61 +107,126 @@ if combustible >= combustible_necesario_regreso:
                 provisiones - provisiones_necesarias_dia
             )
 
-            # Actualizar los contadores
+            # Actualización de contadores
             dias_completados = dias_completados + 1
 
+            # Estado diario de la nave
             print(
-                "\nDía",
+                "Día",
                 dia_actual,
-                "completado correctamente."
+                "| Combustible:",
+                combustible,
+                "| Oxígeno:",
+                oxigeno,
+                "| Energía:",
+                energia,
+                "| Provisiones:",
+                provisiones
             )
-
-            print("Recursos restantes:")
-            print("Combustible:", combustible)
-            print("Oxígeno:", oxigeno)
-            print("Energía:", energia)
-            print("Provisiones:", provisiones)
 
             dia_actual = dia_actual + 1
 
         else:
-            print("\nEl regreso no puede continuar.")
+            print(
+                "\nEl regreso se interrumpió en el día",
+                dia_actual
+            )
 
-            # Identificación de los recursos insuficientes
+            # Identificación de recursos insuficientes
             if combustible < CONSUMO_COMBUSTIBLE_DIA:
-                print("Motivo: combustible insuficiente.")
+                print("Recurso insuficiente: combustible")
 
             if oxigeno < oxigeno_necesario_dia:
-                print("Motivo: oxígeno insuficiente.")
+                print("Recurso insuficiente: oxígeno")
 
             if energia < CONSUMO_ENERGIA_DIA:
-                print("Motivo: energía insuficiente.")
+                print("Recurso insuficiente: energía")
 
             if provisiones < provisiones_necesarias_dia:
-                print("Motivo: provisiones insuficientes.")
+                print("Recurso insuficiente: provisiones")
+
+            print("La tripulación no completó el regreso.")
 
             regreso_activo = False
 
     # Resultado del regreso
-    print("\n========== RESULTADO DEL REGRESO ==========")
-
     if dias_completados == dias_viaje_ida:
-        print("Regreso exitoso.")
-        print("La tripulación llegó a la Tierra.")
-    else:
-        print("Regreso interrumpido.")
-        print("La tripulación no logró llegar a la Tierra.")
-
-    print("Días requeridos:", dias_viaje_ida)
-    print("Días completados:", dias_completados)
-    print("Combustible restante:", combustible)
-    print("Oxígeno restante:", oxigeno)
-    print("Energía restante:", energia)
-    print("Provisiones restantes:", provisiones)
-    print("===========================================")
+        print(
+            "\nLa tripulación regresó exitosamente "
+            "a la Tierra."
+        )
+        print(
+            "Combustible restante:",
+            combustible,
+            "unidades"
+        )
+        print(
+            "Oxígeno restante:",
+            oxigeno,
+            "unidades"
+        )
+        print(
+            "Energía restante:",
+            energia,
+            "unidades"
+        )
+        print(
+            "Provisiones restantes:",
+            provisiones,
+            "unidades"
+        )
 
 # Caso B: combustible insuficiente para iniciar el regreso
 else:
     print("\nLa nave no tiene combustible suficiente.")
-    print("La tripulación quedó varada.")
-    print("El análisis de supervivencia se agregará después.")
+    print("La tripulación quedó varada en el destino.")
+
+    # Cálculo de días de supervivencia por recurso
+    dias_oxigeno = (
+        oxigeno // oxigeno_necesario_dia
+    )
+
+    dias_energia = (
+        energia // CONSUMO_ENERGIA_DIA
+    )
+
+    dias_provisiones = (
+        provisiones // provisiones_necesarias_dia
+    )
+
+    # Determinar los días de supervivencia sin utilizar min()
+    dias_supervivencia = dias_oxigeno
+
+    if dias_energia < dias_supervivencia:
+        dias_supervivencia = dias_energia
+
+    if dias_provisiones < dias_supervivencia:
+        dias_supervivencia = dias_provisiones
+
+    # Mostrar cálculos de supervivencia
+    print("\n========== ANÁLISIS DE SUPERVIVENCIA ==========")
+    print("Días posibles con oxígeno:", dias_oxigeno)
+    print("Días posibles con energía:", dias_energia)
+    print(
+        "Días posibles con provisiones:",
+        dias_provisiones
+    )
+    print(
+        "La tripulación puede sobrevivir",
+        dias_supervivencia,
+        "días."
+    )
+
+    print("Recurso o recursos limitantes:")
+
+    # Mostrar todos los recursos limitantes
+    if dias_oxigeno == dias_supervivencia:
+        print("Oxígeno")
+
+    if dias_energia == dias_supervivencia:
+        print("Energía")
+
+    if dias_provisiones == dias_supervivencia:
+        print("Provisiones")
+
+    print("================================================")
